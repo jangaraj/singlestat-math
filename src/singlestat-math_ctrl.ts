@@ -732,8 +732,8 @@ class SingleStatMathCtrl extends MetricsPanelCtrl {
       }
       // Convert to Circle
       if (panel.circleBackground) {
-        let circleHeight = $($panelContainer.height())[0] - 26;
-        let circleWidth = $($panelContainer.width())[0];
+        let circleHeight = $($panelContainer.height())[0] - 40;
+        let circleWidth = $($panelContainer.width())[0] - 30;
 
         $($panelContainer).addClass('circle');
         $panelContainer.css('background-color', '');

@@ -671,8 +671,8 @@ System.register(["lodash", "jquery", "jquery.flot", "./lib/flot/jquery.flot.gaug
                             panel.circleBackground = false;
                         }
                         if (panel.circleBackground) {
-                            var circleHeight = jquery_1.default($panelContainer.height())[0] - 26;
-                            var circleWidth = jquery_1.default($panelContainer.width())[0];
+                            var circleHeight = jquery_1.default($panelContainer.height())[0] - 40;
+                            var circleWidth = jquery_1.default($panelContainer.width())[0]- 30;
                             jquery_1.default($panelContainer).addClass('circle');
                             $panelContainer.css('background-color', '');
                             if (circleWidth >= circleHeight) {
