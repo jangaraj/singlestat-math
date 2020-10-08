@@ -496,7 +496,7 @@ class SingleStatMathCtrl extends MetricsPanelCtrl {
     var panel = ctrl.panel;
     var templateSrv = this.templateSrv;
     var data, linkInfo;
-    var $panelContainer = elem.find('.panel-container');
+    var $panelContainer = elem.find('.panel-content');
     elem = elem.find('.singlestatmath-panel');
 
     function applyColoringThresholds(value, valueString) {
@@ -732,7 +732,7 @@ class SingleStatMathCtrl extends MetricsPanelCtrl {
       }
       // Convert to Circle
       if (panel.circleBackground) {
-        let circleHeight = $($panelContainer.height())[0] - 26;
+        let circleHeight = $($panelContainer.height())[0];
         let circleWidth = $($panelContainer.width())[0];
 
         $($panelContainer).addClass('circle');
