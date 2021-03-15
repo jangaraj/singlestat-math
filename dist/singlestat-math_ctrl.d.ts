@@ -1,4 +1,4 @@
-/// <reference path="../node_modules/grafana-sdk-mocks/app/headers/common.d.ts" />
+/// <reference types="grafana-sdk-mocks/app/headers/common" />
 import 'jquery.flot';
 import './lib/flot/jquery.flot.gauge';
 import 'jquery.flot.time';

@@ -14,6 +14,7 @@ import config from 'app/core/config';
 import TimeSeries from 'app/core/time_series2';
 import { MetricsPanelCtrl, PanelCtrl } from 'app/plugins/sdk';
 //import { strict } from 'assert';
+import { PanelEvents } from '@grafana/data';
 
 class SingleStatMathCtrl extends MetricsPanelCtrl {
   static templateUrl = 'public/plugins/blackmirror1-singlestat-math-panel/module.html';
@@ -99,10 +100,14 @@ class SingleStatMathCtrl extends MetricsPanelCtrl {
     super($scope, $injector);
     _.defaults(this.panel, this.panelDefaults);
 
-    this.events.on('data-received', this.onDataReceived.bind(this));
-    this.events.on('data-error', this.onDataError.bind(this));
-    this.events.on('data-snapshot-load', this.onDataReceived.bind(this));
-    this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
+    //this.events.on('data-received', this.onDataReceived.bind(this));
+    this.events.on(PanelEvents.dataReceived, this.onDataReceived.bind(this));
+    //this.events.on('data-error', this.onDataError.bind(this));
+    this.events.on(PanelEvents.dataError, this.onDataError.bind(this));
+    //this.events.on('data-snapshot-load', this.onDataReceived.bind(this));
+    this.events.on(PanelEvents.dataSnapshotLoad, this.onDataReceived.bind(this));
+    //this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
+    this.events.on(PanelEvents.editModeInitialized, this.onInitEditMode.bind(this));
 
     this.onSparklineColorChange = this.onSparklineColorChange.bind(this);
     this.onSparklineFillChange = this.onSparklineFillChange.bind(this);
@@ -496,8 +501,12 @@ class SingleStatMathCtrl extends MetricsPanelCtrl {
     var panel = ctrl.panel;
     var templateSrv = this.templateSrv;
     var data, linkInfo;
-    var $panelContainer = elem.find('.panel-container');
+    //var $panelContainer = elem.find('.panel-container');
     elem = elem.find('.singlestatmath-panel');
+
+    function getPanelContainer() {
+      return elem.closest('.panel-container');
+    }
 
     function applyColoringThresholds(value, valueString) {
       if (!panel.colorValue) {
@@ -718,7 +727,7 @@ class SingleStatMathCtrl extends MetricsPanelCtrl {
           color = getColorForValue(panel.thresholds, data.value);
         }
         if (color) {
-          $panelContainer.css('background-color', color);
+          getPanelContainer().css('background-color', color);
           if (scope.fullscreen) {
             elem.css('background-color', color);
           } else {
@@ -726,17 +735,17 @@ class SingleStatMathCtrl extends MetricsPanelCtrl {
           }
         }
       } else {
-        $panelContainer.css('background-color', '');
+        getPanelContainer().css('background-color', '');
         elem.css('background-color', '');
         panel.circleBackground = false;
       }
       // Convert to Circle
       if (panel.circleBackground) {
-        let circleHeight = $($panelContainer.height())[0] - 40;
-        let circleWidth = $($panelContainer.width())[0] - 30;
+        let circleHeight = getPanelContainer().height() - 40;
+        let circleWidth = getPanelContainer().width() - 30;
 
-        $($panelContainer).addClass('circle');
-        $panelContainer.css('background-color', '');
+        $(getPanelContainer()).addClass('circle');
+        getPanelContainer().css('background-color', '');
 
         if (circleWidth >= circleHeight) {
           elem.css({
@@ -754,7 +763,7 @@ class SingleStatMathCtrl extends MetricsPanelCtrl {
           });
         }
       } else {
-        $($panelContainer.removeClass('circle'));
+        $(getPanelContainer().removeClass('circle'));
         elem.css({ 'border-radius': '0', width: '', height: '' });
       }
 
@@ -832,8 +841,13 @@ class SingleStatMathCtrl extends MetricsPanelCtrl {
     }
 
     hookupDrilldownLinkTooltip();
-
+    /*
     this.events.on('render', function() {
+      render();
+      ctrl.renderingCompleted();
+    });
+    */
+    this.events.on(PanelEvents.render, function() {
       render();
       ctrl.renderingCompleted();
     });

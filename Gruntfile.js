@@ -69,6 +69,7 @@ module.exports = function(grunt) {
         src: ['src/**/*.ts', '!**/*.d.ts', '!**/*.min.js'],
         outDir: 'dist',
         options: {
+          moduleResolution: "node",
           rootDir: 'src',
           verbose: true,
           target: 'ES5',

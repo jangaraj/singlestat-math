@@ -33,3 +33,4 @@ profile.cov
 grafana
 .notouch
 .tscache
+.tscache/*
